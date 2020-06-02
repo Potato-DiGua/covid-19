@@ -10,12 +10,15 @@
     <script src="js/countryMap.js"></script>
 
     <title>疫情数据</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body style="background: #172c3c">
 <div id="result"></div>
 <div style="text-align: right;margin-right: 200px">
-    <button id="currentBtn">现有确诊</button>
-    <button id="sumBtn">累计确诊</button>
+    <div class="btn wave right" id="currentBtn">现有确诊</div>
+    <div class="btn wave right" id="sumBtn">累计确诊</div>
+    <div class="btn wave right" id="deadBtn">死亡人数</div>
+    <div class="btn wave right" id="cureBtn">治愈人数</div>
 </div>
 <div id="map" style="width: 95%;height:720px;margin: 0 auto;"></div>
 <script>
