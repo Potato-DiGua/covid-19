@@ -68,3 +68,8 @@ body {
     text-align: left;
     text-indent: 2em; /*开头空格*/
 }
+
+.ptitle {
+    color: darkorange;
+    text-align: center
+}

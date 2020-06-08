@@ -2,31 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
-    </script>
+    <link rel="stylesheet" type="text/css" href="css/nav.css">
+    <script src="js/jquery.js"></script>
     <script src="js/echarts.min.js"></script>
-
     <script src="js/world.js"></script>
     <script src="js/countryMap.js"></script>
-
-    <title>疫情数据</title>
+    <script src="js/sonic.js"></script>
+    <title>世界疫情数据</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body style="background: #172c3c">
+<div class = 'top'>
+    <ul>
+        <li><a href="./index.html">新冠病毒</a></li>
+        <li><a href="./worldData.html" >世界疫情</a></li>
+    </ul>
+</div>
 <div id="result"></div>
-<div style="text-align: right;margin-right: 200px">
+<div style="text-align: center;">
     <div class="btn wave right" id="currentBtn">现有确诊</div>
     <div class="btn wave right" id="sumBtn">累计确诊</div>
     <div class="btn wave right" id="deadBtn">死亡人数</div>
     <div class="btn wave right" id="curedBtn">治愈人数</div>
 </div>
-<div id="map" style="width: 95%;height:720px;margin: 0 auto;"></div>
+<div id="loading"></div>
+<div id="map" style="width: 1200px;height:700px;margin: 0 auto;">
+
+</div>
+
+<script>
+    //添加加载进度条
+    let loading = new Sonic({
+        width: 100,
+        height: 100,
+        fillColor: '#ffffff',
+        stepsPerFrame:7,
+        trailLength:0.7,
+        pointDistance:0.01,
+        setup:function(){
+            this._.lineWidth=10;
+        },
+
+        fps:30,
+        path: [
+            ['line', 20, 70, 50, 20],
+            ['line', 50, 20, 80, 70],
+            ['line', 80, 70, 20, 70]
+        ]
+    });
+    loading.play();
+
+    $("#loading").append(loading.canvas);
+</script>
+
 <script>
 
 
     //初始化echarts
-    var myChart = echarts.init(document.getElementById('map'));
+    const myChart = echarts.init(document.getElementById('map'));
+    console.log("初始化");
+
     initChart();
+    console.log("初始化结束");
 
     // 页面需引入jquery库
     let APIKEY = "1531150663469519b4bf4e6ba73a5e08"
@@ -66,6 +103,7 @@
                         }
                     }
                 }
+
                 let pieces1 = [{
                     lte: 0,
                     label: "0",
@@ -93,7 +131,7 @@
                 }];
 
                 refreshChart(currentData, "现有确诊",pieces1);
-
+                $("#loading").remove();
                 $("#currentBtn").click(function () {
                     refreshChart(currentData, "现有确诊",pieces1)
                 });
@@ -196,15 +234,14 @@
 
     //生成图表
     function initChart() {
-        option = {
+        let option = {
             title: {
-                text: "全球疫情数据",
+                text: "全球疫情数据-现有确诊",
                 left: "center",
                 textStyle: {
                     color: "#ffffff"
                 }
             },
-
             textStyle: {
                 color: "#ffffff"
             },
@@ -220,6 +257,7 @@
                 }
             }
         };
+
         myChart.setOption(option);
 
     }

@@ -4,18 +4,73 @@
     <meta charset="UTF-8">
     <title>新冠病毒-科普</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/nav.css">
     <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script>
+        const APIKEY = "1531150663469519b4bf4e6ba73a5e08";
+        $(document).ready(function () {
+            let intervalID=loading();
+
+            $.get("http://api.tianapi.com/txapi/ncov/index?key=" + APIKEY, function (data, status) {
+                let news = data.newslist[0].news;
+                let newsDiv = document.getElementById("news")
+
+                clearInterval(intervalID);
+
+                newsDiv.firstElementChild.innerText = "疫情新闻"
+                for (let tip of news) {
+                    let title = document.createElement("h4");
+                    let p = document.createElement("p");
+                    title.innerText = tip.title;
+                    p.innerText = tip.summary;
+                    newsDiv.append(title);
+                    newsDiv.append(p);
+                }
+            })
+        });
+
+
+        //添加新闻加载动画
+        function loading() {
+            let title = $("#news").children().first().get(0);
+            let count = 0;
+            return setInterval(function () {
+                if (count == 0) {
+                    title.innerText = "疫情新闻-加载中";
+                } else {
+                    title.innerText += "."
+                }
+                count++;
+                count %= 4;
+            }, 1000);
+        }
+    </script>
 </head>
 <body>
+<div class='top'>
+    <ul>
+        <li><a href="./index.html">新冠病毒</a></li>
+        <li><a href="./worldData.html">世界疫情</a></li>
+    </ul>
+</div>
+
 <div class="blue_block">
     <h2 class="title">新型冠状病毒肺炎(Corona Virus Disease 2019，COVID-19)</h2>
+
 </div>
+
+
 <div style="width: 800px;margin: 20px auto;min-height: 300px">
+
     <img style="float: left;margin-right: 30px" src="img/virus.png">
     <p style="padding-top: 60px;" class="text">新型冠状病毒肺炎（Corona Virus Disease
         2019，COVID-19），简称“新冠肺炎”，世界卫生组织命名为“2019冠状病毒病”，是指2019新型冠状病毒感染导致的肺炎。2019年12月以来，
         湖北省武汉市部分医院陆续发现了多例有华南海鲜市场暴露史的不明原因肺炎病例，
         现已证实为2019新型冠状病毒感染引起的急性呼吸道传染病。</p>
+    <div id="news" style="width: 800px;margin-top: 120px;margin-bottom: 40px">
+        <h1 class="ptitle">疫情新闻-加载中...</h1>
+    </div>
 </div>
 
 <div class="blue_block">
@@ -35,7 +90,7 @@
 </div>
 <div class="center">
 
-    <h1 style="color: darkorange;text-align: center">防护措施</h1>
+    <h1 class="ptitle">防护措施</h1>
 
     <div>
         <h5>一、加强个人防护</h5>
@@ -75,9 +130,10 @@
 <div id="chart" style="width: 1280px;height:720px;margin: 20px auto"></div>
 <script>
     let myChart = echarts.init(document.getElementById('chart'));
-    var option = {
-        title:{
-            text:"与肺炎症状类似的疾病"
+    let option = {
+        title: {
+            text: "与肺炎症状类似的疾病",
+            left: "center"
         },
         series: {
             type: 'sunburst',
