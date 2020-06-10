@@ -157,3 +157,23 @@
     bottom:0;
     z-index: 998;
 }
+
+#sumData table tr td{
+    padding: 0 20px;
+}
+#sumData{
+    text-align: center;
+}
+
+.sumCurrentConfirmed{
+    color: #e26a6c;
+}
+.sumConfirmed{
+    color: #de3434;
+}
+.sumDead{
+    color: #ff0001;
+}
+.sumCured{
+    color: #1abc9c;
+}
